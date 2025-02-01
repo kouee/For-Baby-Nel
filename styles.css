@@ -43,10 +43,10 @@ body {
 
 /* Next Button */
 .next-button {
-    position: fixed; /* Fixed position to place it at the far right */
-    right: 20px; /* Adjust distance from the right edge */
-    top: 50%; /* Center vertically */
-    transform: translateY(-50%); /* Adjust for exact vertical centering */
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
     background: #8b0000;
     border: none;
     border-radius: 25px;
@@ -55,18 +55,15 @@ body {
     color: white;
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .next-button.visible {
     opacity: 1;
 }
 
-/* Zoom-out animation when cursor is near */
 .next-button.zoom-out {
-    transform: translateY(-50%) scale(1.1); /* Slightly zoom out */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Add a stronger shadow */
+    transform: translateY(-50%) scale(1.1);
 }
 
 /* Memory Page */
@@ -78,53 +75,53 @@ body {
 .memory-container {
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
 }
 
 .memory-image {
-    max-width: 60%; /* Smaller width to leave space for text */
+    max-width: 60%;
     max-height: 80%;
     border-radius: 20px;
-    transform: translateY(100vh);
-    transition: all 1s ease; /* Smooth transition for all properties */
-    transition-delay: 1s;
     position: absolute;
-    left: 50%; /* Start centered */
-    transform: translateX(-50%) translateY(100vh);
+    left: 50%;
+    transform: translate(-50%, 100vh);
+    transition: all 1s ease;
 }
 
+/* Initial visible state - CENTERED */
 .memory-image.visible {
-    transform: translateX(-50%) translateY(0);
+    transform: translate(-50%, 0);
 }
 
+/* Move to left side */
 .memory-image.move-left {
-    left: 20%; /* Move to the left */
-    transform: translateX(0) translateY(0);
+    left: 20%;
+    transform: translate(-50%, 0);
+    transition: left 1s ease;
 }
 
+/* Final shrink + diagonal movement */
 .memory-image.shrink {
-    width: 25%; /* Shrink to 25% of original size */
-    height: 25%;
-    transition: all 1s ease; /* Smooth transition for shrinking */
+    scale: 0.25;
+    transition: scale 0.5s ease;
 }
 
-.memory-image.move-top-left {
-    left: 10px; /* Move to the top left */
-    top: 10px;
-    transform: translateX(0) translateY(0);
-    transition: all 1s ease; /* Smooth transition for moving */
+.memory-image.move-diagonal {
+    left: 30px;
+    top: 30px;
+    transform: translate(0, 0) scale(0.25);
+    transition: 
+        left 1s cubic-bezier(0.33, 1, 0.68, 1),
+        top 1s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 /* Text Container */
 .text-container {
     position: absolute;
-    right: 20px; /* Position on the right */
+    right: 20px;
     top: 50%;
     transform: translateY(-50%);
-    width: 30%; /* Adjust width for text */
+    width: 30%;
     opacity: 0;
     transition: opacity 1s ease;
 }
@@ -138,10 +135,10 @@ body {
     font-weight: 400;
     color: rgb(145, 61, 85);
     line-height: 1.5;
-    margin-bottom: 20px; /* Space between text messages */
+    margin-bottom: 20px;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .text-message.visible {
@@ -151,5 +148,4 @@ body {
 
 .text-message.fade-out {
     opacity: 0;
-    transition: opacity 1s ease;
 }

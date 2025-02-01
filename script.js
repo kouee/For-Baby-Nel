@@ -11,114 +11,70 @@ window.addEventListener('load', function() {
     const text1 = document.querySelector('.text1');
     const text2 = document.querySelector('.text2');
 
-    // Show first message
+    // Initial message sequence
     setTimeout(() => message1.classList.add('visible'), 0);
-
-    // First message sequence
+    setTimeout(() => message1.classList.remove('visible'), 4000);
+    setTimeout(() => message2.classList.add('visible'), 5000);
+    setTimeout(() => message2.classList.remove('visible'), 11000);
+    setTimeout(() => message3.classList.add('visible'), 12000);
+    setTimeout(() => message3.classList.remove('visible'), 22000);
     setTimeout(() => {
-        message1.classList.remove('visible');
-        
-        // Show second message after first fades out
-        setTimeout(() => {
-            message2.classList.add('visible');
-        }, 1000);
-        
-    }, 4000); // 3s display + 1s fade out
+        message4.classList.add('visible');
+        setTimeout(() => nextButton.classList.add('visible'), 2000);
+    }, 23000);
 
-    // Second message sequence
-    setTimeout(() => {
-        message2.classList.remove('visible');
-        
-        // Show third message after second fades out
-        setTimeout(() => {
-            message3.classList.add('visible');
-        }, 1000);
-        
-    }, 11000); // 6s display + 1s fade out after previous sequence
-
-    // Third message sequence
-    setTimeout(() => {
-        message3.classList.remove('visible');
-        
-        // Show fourth message after third fades out
-        setTimeout(() => {
-            message4.classList.add('visible');
-            
-            // Show the button after 2 seconds
-            setTimeout(() => {
-                nextButton.classList.add('visible');
-            }, 2000); // 2-second delay for the button
-        }, 1000);
-        
-    }, 22000); // 10s display + 1s fade out after previous sequence
-
-    // Button click event
+    // Button click handler
     nextButton.addEventListener('click', () => {
-        // Slide page1 to the left
         page1.style.transform = 'translateX(-100vw)';
-        
-        // Slide page2 into view
         page2.style.transform = 'translateX(0)';
         
-        // Show memory image after the page transition is done
         setTimeout(() => {
+            // Show image
             memoryImage.classList.add('visible');
             
-            // Wait 2 seconds, then move the image to the left
+            // First move to left after 2 seconds
             setTimeout(() => {
                 memoryImage.classList.add('move-left');
                 
-                // Wait 1 second, then show the text container
+                // Show text after 1 second
                 setTimeout(() => {
                     textContainer.classList.add('visible');
+                    text1.classList.add('visible');
                     
-                    // Show the first text message
+                    // Show second text after 4 seconds
                     setTimeout(() => {
-                        text1.classList.add('visible');
+                        text2.classList.add('visible');
                         
-                        // Show the second text message after 4 seconds
+                        // Final sequence after 3 seconds
                         setTimeout(() => {
-                            text2.classList.add('visible');
+                            // Fade out text
+                            text1.classList.add('fade-out');
+                            text2.classList.add('fade-out');
                             
-                            // After 3 seconds, fade out text, shrink image, and move it to the top left
+                            // Shrink animation
+                            memoryImage.classList.add('shrink');
+                            
+                            // Diagonal movement after shrink
                             setTimeout(() => {
-                                text1.classList.add('fade-out');
-                                text2.classList.add('fade-out');
-                                
-                                // Shrink the image
-                                memoryImage.classList.add('shrink');
-                                
-                                // Wait 0.5 seconds, then move the image to the top left
-                                setTimeout(() => {
-                                    memoryImage.classList.add('move-top-left');
-                                }, 500); // 0.5 seconds delay
-                            }, 3000); // 3 seconds delay
-                        }, 4000); // 4 seconds delay
-                    }, 1000); // 1 second delay
-                }, 1000); // 1 second delay
-            }, 2000); // 2 seconds delay
-        }, 1000); // Wait for the page transition to finish
+                                memoryImage.classList.add('move-diagonal');
+                            }, 500); // 0.5s after shrink starts
+                        }, 3000); // Wait 3 seconds
+                    }, 4000); // Wait 4 seconds
+                }, 1000); // Wait 1 second
+            }, 2000); // Wait 2 seconds
+        }, 1000); // Initial delay
     });
 
-    // Detect cursor proximity to the button
+    // Button hover effect
     document.addEventListener('mousemove', (e) => {
         const buttonRect = nextButton.getBoundingClientRect();
-        const cursorX = e.clientX;
-        const cursorY = e.clientY;
-
-        // Define a proximity threshold (e.g., 100px)
-        const proximityThreshold = 100;
-
-        // Check if the cursor is near the button
-        if (
-            cursorX >= buttonRect.left - proximityThreshold &&
-            cursorX <= buttonRect.right + proximityThreshold &&
-            cursorY >= buttonRect.top - proximityThreshold &&
-            cursorY <= buttonRect.bottom + proximityThreshold
-        ) {
-            nextButton.classList.add('zoom-out'); // Apply zoom-out effect
-        } else {
-            nextButton.classList.remove('zoom-out'); // Remove zoom-out effect
-        }
+        const threshold = 100;
+        const nearButton = (
+            e.clientX >= buttonRect.left - threshold &&
+            e.clientX <= buttonRect.right + threshold &&
+            e.clientY >= buttonRect.top - threshold &&
+            e.clientY <= buttonRect.bottom + threshold
+        );
+        nextButton.classList.toggle('zoom-out', nearButton);
     });
 });
